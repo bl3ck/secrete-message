@@ -4,6 +4,7 @@ import Login from './pages/Login'
 import Home from './pages/Home'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import ViewMessage from './pages/ViewMessage'
 
 export default function App () { 
     return(
@@ -14,6 +15,7 @@ export default function App () {
                     <Route path='/' element={<Home />}/>
                     <Route path='/create-message' element={<CreateMessage />}/>
                     <Route path='/login' element={<Login />} />
+                    <Route path='/message/:messageID' element={<ViewMessage />} />
                     <Route path='*' element={<Navigate to='/' />} />
                 </Routes>
                 <Footer />
