@@ -22,7 +22,7 @@ export default function CreateMessage () {
     const handleSendMessage = async (e) => {
         let msg = document.getElementById('message').value
         let duration_type = Array.from(document.getElementsByName('duration_type')).find( (item) => item.checked ).value
-        let duration = document.getElementById('duration').value
+        let duration = +document.getElementById('duration').value
 
         let msg_data = {msg,duration,duration_type,messageLink}
 
