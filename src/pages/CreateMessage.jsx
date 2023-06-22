@@ -1,9 +1,10 @@
 import { useState } from "react"
-import { collection, addDoc } from "firebase/firestore"
+import { collection, addDoc, Firestore, Timestamp } from "firebase/firestore"
 import { db } from "../firebase"
 import copy from "clipboard-copy"
 
 export default function CreateMessage () {
+    // console.log('ENV', REACT_APP_API_KEY)
     const [message, setMessage] = useState('')
     const [messageLink, setMessageLink] = useState('')
     const [duration, setDuration] = useState({})
@@ -20,11 +21,22 @@ export default function CreateMessage () {
     }
 
     const handleSendMessage = async (e) => {
+        let msg_data
         let msg = document.getElementById('message').value
         let duration_type = Array.from(document.getElementsByName('duration_type')).find( (item) => item.checked ).value
         let duration = +document.getElementById('duration').value
-
-        let msg_data = {msg,duration,duration_type,messageLink}
+        const timeStamp = Timestamp.now()
+        const timeNow = Timestamp.now().toDate()
+        if(duration_type === 'hours'){
+            const expirationTime = new Date(timeNow.getTime() + (duration * 60 * 60 * 1000));
+            msg_data = {msg,duration,duration_type,messageLink,timeStamp, expirationTime}
+        }else if(duration_type === 'days'){
+            const expirationTime = new Date(timeNow.getTime() + (duration * 24 * 60 * 60 * 1000));
+            msg_data = {msg,duration,duration_type,messageLink,timeStamp, expirationTime}
+        }
+        else{
+            msg_data = {msg,duration,duration_type,messageLink,timeStamp}
+        }
 
         setMessage(msg)
         setDuration({duration_type:duration})

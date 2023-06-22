@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore"
+import { Timestamp, collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { db } from "../firebase"
@@ -17,14 +17,23 @@ export default function ViewMessage(){
             if(docSnap.exists()){
                 const data = { ...docSnap.data(), id: docSnap.id };
                 setMessage(data)
+                const timeNow = Timestamp.now().toDate()
                 if (data.duration_type == 'views'){
-                    let newDuration = data.duration - 1;
+                    const newDuration = data.duration - 1;
                     console.log(newDuration)
                     await updateDoc (docRef, {
                         duration: newDuration
                     })
+                    if(data.duration < 1) setHasExpired(true)
+                } else if (data.duration_type == 'hours'){
+                    const expirationTime = data.expirationTime.toDate()
+                    timeNow > expirationTime ? setHasExpired(true) : setHasExpired(false)
+                    console.log({ timeNow, expirationTime, expired: timeNow > expirationTime})
+                } else if (data.duration_type == 'days'){
+                    const expirationTime = data.expirationTime.toDate()
+                    timeNow > expirationTime ? setHasExpired(true) : setHasExpired(false)
+                    console.log({ timeNow, expirationTime, expired: timeNow > expirationTime})
                 }
-                if(data.duration < 1) setHasExpired(true)
             } else {
                 setMessage({msg:'Message does not exist'})
             }
