@@ -3,16 +3,23 @@ import 'firebase/firestore'
 import { getFirestore } from "firebase/firestore";
 import {getAnalytics}  from "firebase/analytics"
 
+const API_KEY =  import.meta.env.VITE_API_KEY
+const AUTH_DOMAIN =  import.meta.env.VITE_AUTH_DOMAIN
+const PROJECT_ID =  import.meta.env.VITE_PROJECT_ID
+const STORAGE_BUCKET =  import.meta.env.VITE_STORAGE_BUCKET
+const MESSAGING_SENDER_ID =  import.meta.env.VITE_MESSAGING_SENDER_ID
+const APP_ID =  import.meta.env.VITE_APP_ID
+const MEASUREMENT_ID =  import.meta.env.VITE_MEASUREMENT_ID
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBidQGuqGqrFev252Bq7rm6sViaKfmH8fs",
-    authDomain: "secrete-messages-gaston.firebaseapp.com",
-    projectId: "secrete-messages-gaston",
-    storageBucket: "secrete-messages-gaston.appspot.com",
-    messagingSenderId: "1083008720471",
-    appId: "1:1083008720471:web:818526125f7d835ba5cd12",
-    measurementId: "G-242E206K6Q"
-  };
+  apiKey: API_KEY,
+  authDomain: AUTH_DOMAIN,
+  projectId: PROJECT_ID,
+  storageBucket: STORAGE_BUCKET,
+  messagingSenderId: MESSAGING_SENDER_ID,
+  appId: APP_ID,
+  measurementId: MEASUREMENT_ID
+};
 
 const app = initializeApp(firebaseConfig);
 
