@@ -3,6 +3,8 @@ import 'firebase/firestore'
 import { getFirestore } from "firebase/firestore";
 import {getAnalytics}  from "firebase/analytics"
 
+import {getAuth} from "firebase/auth"
+
 const API_KEY =  import.meta.env.VITE_API_KEY
 const AUTH_DOMAIN =  import.meta.env.VITE_AUTH_DOMAIN
 const PROJECT_ID =  import.meta.env.VITE_PROJECT_ID
@@ -25,3 +27,4 @@ const app = initializeApp(firebaseConfig);
 
 export const db = getFirestore(app)
 export const analytics = getAnalytics(app)
+export const auth = getAuth(app)

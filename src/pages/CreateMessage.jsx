@@ -3,6 +3,8 @@ import { collection, addDoc, Firestore, Timestamp } from "firebase/firestore"
 import { db } from "../firebase"
 import copy from "clipboard-copy"
 
+const APP_URL = import.meta.env.VITE_APP_URL
+
 export default function CreateMessage () {
     // console.log('ENV', REACT_APP_API_KEY)
     const [message, setMessage] = useState('')
@@ -13,7 +15,7 @@ export default function CreateMessage () {
     const addMessage = async (msg_data) => {
         try {
             const docRef = await addDoc(collection(db, "messages"), msg_data);
-            setMessageLink(`http://localhost:5173/message/${docRef.id}`)
+            setMessageLink(`${APP_URL}/message/${docRef.id}`)
             console.log("Document written with ID: ", docRef.id);
         } catch (e) {
             console.error("Error adding document: ", e);
