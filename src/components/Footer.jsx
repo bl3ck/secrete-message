@@ -1,7 +1,11 @@
 export default function Footer(){
+    const date = new Date()
+    const year = date.getFullYear()
     return(
         <>
-            <p>Footer Section</p>
+            <footer>
+                <p> © {year} Secrete Messages </p>
+            </footer>
         </>
     )
 }
