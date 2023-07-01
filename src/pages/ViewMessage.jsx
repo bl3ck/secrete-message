@@ -17,19 +17,20 @@ export default function ViewMessage(){
             if(docSnap.exists()){
                 const data = { ...docSnap.data(), id: docSnap.id };
                 setMessage(data)
+                console.log({data})
                 const timeNow = Timestamp.now().toDate()
-                if (data.duration_type == 'views'){
+                if (data.durationType == 'views'){
                     const newDuration = data.duration - 1;
                     console.log(newDuration)
                     await updateDoc (docRef, {
                         duration: newDuration
                     })
                     if(data.duration < 1) setHasExpired(true)
-                } else if (data.duration_type == 'hours'){
+                } else if (data.durationType == 'hours'){
                     const expirationTime = data.expirationTime.toDate()
                     timeNow > expirationTime ? setHasExpired(true) : setHasExpired(false)
                     console.log({ timeNow, expirationTime, expired: timeNow > expirationTime})
-                } else if (data.duration_type == 'days'){
+                } else if (data.durationType == 'days'){
                     const expirationTime = data.expirationTime.toDate()
                     timeNow > expirationTime ? setHasExpired(true) : setHasExpired(false)
                     console.log({ timeNow, expirationTime, expired: timeNow > expirationTime})
