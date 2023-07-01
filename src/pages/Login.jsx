@@ -1,16 +1,17 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import InputField from "../components/InputField";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { UserContext, useUser } from "../contexts/UserProvider";
 
 export default function Login(){
     const emailField = useRef()
     const passwordField = useRef()
     const navigate = useNavigate()
+    const {setIsLoggedIn, setUserData, userData} = useContext(UserContext)
 
     const [formErrors, setFormErrors] = useState({})
     const [authErrors, setAuthErrors] = useState({})
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
     
     const onSubmit = async (e) => {
         e.preventDefault()
@@ -29,12 +30,18 @@ export default function Login(){
 
         const auth = getAuth()
         await signInWithEmailAndPassword(auth, email, password).then( (userCredential) => {
-            const user = {...userCredential}
+            const user = userCredential.user
             const uid = userCredential.user.uid
             setAuthErrors({})
             setFormErrors({})
-            navigate(`/${uid}/messages`,{state: {isLoggedIn:true}})
-            
+            navigate(`/${uid}/messages`)
+            const token = userCredential.user.accessToken
+            console.log(userCredential,userCredential.user.accessToken)
+            const userInfo = {uid, email:user.email, displayName:user.displayName}
+            localStorage.setItem('accessToken', token )
+            localStorage.setItem('userData', JSON.stringify(userInfo))
+            setIsLoggedIn(true)
+            setUserData(userInfo)
         }).catch((error)=>{
             const err = error.message
             setAuthErrors(err)
@@ -53,14 +60,16 @@ export default function Login(){
 
     return(
         <>
-            <h1>Login Page</h1>
-            <form onSubmit={onSubmit} errors={authErrors}>
-                {authErrors && <span className="error">{authErrors.message}</span>}
-                <InputField label='Enter email' type='email' name='email' fieldRef={emailField} error={formErrors.email}  />
-                <InputField label='Enter password' type='password' name='password' fieldRef={passwordField} error={formErrors.password}  />
-                <button type="submit" >Login</button>
-            </form>
-            <p><Link to='/sign-up'>Register</Link></p>
+            <div className="auth-form">
+                <h1>Sign in</h1>
+                <form onSubmit={onSubmit} errors={authErrors}>
+                    {authErrors && <span className="error">{authErrors.message}</span>}
+                    <InputField label='Enter email' type='email' name='email' fieldRef={emailField} error={formErrors.email}  />
+                    <InputField label='Enter password' type='password' name='password' fieldRef={passwordField} error={formErrors.password}  />
+                    <p><button type="submit" >Login</button></p>
+                </form>
+                <p className='form-footer'>Don't have an account? <Link to='/sign-up'>Sign up</Link></p>
+            </div>
         </>
     )
 }
