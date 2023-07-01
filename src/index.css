@@ -1,6 +1,122 @@
-* {
-  font-family: Inter;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html{
+  @apply scroll-smooth h-full 
 }
-.error{
-  color: red;
+body{
+  @apply sm:h-full bg-gray-50
+}
+body #root{
+  @apply flex h-full flex-col align-middle items-center justify-center 
+}
+.container {
+  @apply max-w-2xl m-8 sm:mx-auto rounded-md
+}
+.page-content{
+  @apply bg-white p-6 sm:p-12 my-8 m-6 rounded-lg shadow-lg
+}
+
+* {
+  @apply font-sans
+}
+h1{
+  @apply text-2xl font-bold 
+}
+
+/* 1. Header */
+header{
+  @apply flex justify-center relative
+}
+header ul{
+  @apply flex gap-2 items-center justify-center bg-gray-200 rounded-full w-auto p-1
+}
+header ul li a{
+  @apply  px-6 py-3 rounded-full block align-middle items-center text-sm delay-75 overflow-hidden duration-500 transition-all 
+}
+header ul li a:hover{
+  @apply text-gray-500
+}
+header ul li a.active{
+  @apply  bg-black text-white
+}
+
+/* Forms */
+.form-container{
+  @apply space-y-5 mt-10
+}
+input[type='text'],
+input[type='number'],
+input[type='email'],
+input[type='password'],
+textarea{
+  @apply block rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6
+}
+textarea{
+  @apply w-full
+}
+
+label{
+  @apply block text-sm font-medium leading-6 text-gray-900
+}
+.form-row{
+  @apply grid grid-cols-1 gap-x-8 gap-y-5 border-b border-gray-900/10 pb-8 md:grid-cols-3
+}
+.form-row div:first-child{
+  @apply md:col-span-1
+}
+.form-row div:last-child{
+  @apply md:col-span-2
+}
+.form-row h2{
+  @apply text-base font-semibold leading-7 text-gray-900
+}
+.form-row p{
+  @apply mt-1 text-sm leading-6 text-gray-600
+}
+button{
+  @apply rounded-md !bg-teal-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 !important
+}
+.error {
+  @apply text-red-600 text-sm
+}
+
+/* AUTH - forms */
+.auth-form {
+  @apply space-y-6
+}
+.auth-form form{
+  @apply p-8 shadow-lg rounded-lg max-w-sm mx-auto space-y-4 outline outline-1 outline-gray-100
+}
+.auth-form form input{
+  @apply w-full
+}
+.auth-form h1{
+  @apply text-center
+}
+.auth-form button{
+  @apply text-center
+}
+.auth-form .form-footer{
+  @apply text-center text-sm
+}
+.auth-form .form-footer a{
+  @apply underline underline-offset-4
+}
+
+
+/* Text - Homepage */
+.text{
+  @apply mt-4 space-y-4
+}
+.text p{
+  @apply text-base
+}
+.text ul{
+  @apply list-decimal list-inside
+}
+/* Footer */
+footer p{
+  @apply text-center text-sm font-semibold
 }
