@@ -7,17 +7,18 @@ export default function UserProvider({children}){
     const [isLoggedIn, setIsLoggedIn] = useState()
 
     const logOut = () => {
-       setIsLoggedIn(False)
-       setUser(null)
+       setIsLoggedIn(false)
+       setUserData(null)
+       localStorage.removeItem('accessToken')
+       localStorage.removeItem('userData')
     }
 
-    useEffect(() => {
-        (()=>{
-            const token = localStorage.getItem('accessToken')
-            const data = JSON.parse(localStorage.getItem('userData'))
+    useEffect(() => { 
+        (async ()=>{
+            const token = await localStorage.getItem('accessToken')
+            const data = await JSON.parse(localStorage.getItem('userData'))
             token ? setIsLoggedIn(true) : setIsLoggedIn(false)
             data ? setUserData(data) : setUserData()
-            console.log({token}, {data})
         })()
     },[])
 
