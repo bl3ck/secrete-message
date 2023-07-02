@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useContext, useRef, useState } from "react"
 import { collection, addDoc, Firestore, Timestamp } from "firebase/firestore"
 import { db } from "../firebase"
 import copy from "clipboard-copy"
@@ -8,12 +8,14 @@ import TextAreaInput from "../components/TextAreaField"
 import RadioField from "../components/RadioField"
 import Loading from "../components/Loading"
 import { useFlash } from "../contexts/FlashProvider"
+import { UserContext } from "../contexts/UserProvider"
 
 const APP_URL = import.meta.env.VITE_APP_URL
 
 export default function CreateMessage () {
 
     const flash = useFlash()
+    const { userData } = useContext(UserContext)
 
     const messageRef = useRef({})
     const durationTypeRef = useRef([])
@@ -44,10 +46,9 @@ export default function CreateMessage () {
         
         const formErrors = {}
         let msg = messageRef.current.value
-        let duration_types = durationTypeRef.current.map( (fieldRef) => ({
-            value:fieldRef.current.value, checked:fieldRef.current.checked
-        }))
-        let durationType = duration_types.find((entry) => entry.checked ) == undefined ? undefined : duration_types.find((entry) => entry.checked ).value
+        let durationType = durationTypeRef.current.find( (entry) => entry.current.checked )
+        durationType = durationType == undefined ? undefined : durationType.current.value
+        console.log(durationType)
         let duration = durationRef.current.value
 
         // Checking all fields if they have values atleast
@@ -72,6 +73,10 @@ export default function CreateMessage () {
             console.log('got here')
             msg_data = {msg,duration,durationType,timeStamp}
             console.log(msg_data)
+        }
+
+        if( userData && userData.uid ){
+            msg_data = {...msg_data, user:userData.uid}
         }
 
         setMessage(msg_data)

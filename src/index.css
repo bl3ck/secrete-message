@@ -105,6 +105,41 @@ button{
   @apply underline underline-offset-4
 }
 
+/* Messages Listing */
+.messages{
+  @apply divide-y grid grid-cols-1 space-y-3 my-4
+}
+.messages .message{
+  @apply relative flex items-center space-x-4 bg-gray-50 p-4 rounded-sm
+}
+.messages .message-content{
+  @apply min-w-0 flex-auto
+}
+.messages .message h2{
+  @apply min-w-0 text-sm font-bold leading-6 text-black
+}
+.messages .message p{
+  @apply text-base font-light text-gray-500
+}
+.message .status-container{
+  @apply flex items-center gap-x-3
+}
+.message .status{
+  @apply flex-none rounded-full p-1 text-gray-500 bg-gray-500/30
+}
+.message .status .circle{
+  @apply h-2 w-2 rounded-full bg-current
+}
+.message .status.active{
+  @apply text-green-500 bg-green-500/30
+}
+.message .status.expired{
+  @apply text-red-500 bg-red-500/30
+}
+.message a{
+  @apply text-xs font-medium outline outline-1 px-2 rounded-full
+}
+
 
 /* Text - Homepage */
 .text{
