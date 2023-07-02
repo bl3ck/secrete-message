@@ -8,7 +8,7 @@ export default function Login(){
     const emailField = useRef()
     const passwordField = useRef()
     const navigate = useNavigate()
-    const {setIsLoggedIn, setUserData, userData} = useContext(UserContext)
+    const {setIsLoggedIn, setUserData} = useContext(UserContext)
 
     const [formErrors, setFormErrors] = useState({})
     const [authErrors, setAuthErrors] = useState({})
