@@ -6,26 +6,26 @@ import { Timestamp,collection, query, where, getDocs } from "firebase/firestore"
 import { db } from "../firebase"
 import Loading from "../components/Loading";
 import Messages from "../components/Messages";
+import { useReducer } from "react";
+import { INITIAL_STATE, MessagesReducer } from "../MessagesReducer";
 
 const APP_URL = import.meta.env.VITE_APP_URL
 
 export default function MyMessages(){
-    const [userMessages, setUserMessages] = useState()
-    const [isLoading, setIsLoading] = useState(false)
-    const location = useLocation()
     const {uid} = useParams()
-    const navigate = useNavigate()
 
     const { userData, isLoggedIn } = useContext(UserContext)
-
+    
+    const [state, dispatch] = useReducer(MessagesReducer, INITIAL_STATE)
+    
     useEffect(()=>{
         (
             async () => {
-                setIsLoading(true)
-                const q = query(collection(db, "messages"), where("user", "==", userData.uid));
+                dispatch({type:'FETCH_START'})
+                const q = query(collection(db, "messages"), where("user", "==", uid));
                 const querySnapshot = await getDocs(q);
                 let messages = []
-                querySnapshot.forEach((doc) => {
+                await querySnapshot.forEach((doc) => {
                     messages.push({...doc.data(),id:doc.id, messageLink: APP_URL + '/message/' + doc.id})
                 });
                 const messagesWithMeta = messages.map((message) => {
@@ -33,23 +33,16 @@ export default function MyMessages(){
                     let expired = false
                     if (message.durationType == 'views'){
                         if(message.duration < 1) expired = true
-                    } else if (message.durationType == 'hours'){
-                        const expirationTime = message.expirationTime.toDate()
-                        if(timeNow > expirationTime) expired = true
-                    } else if (message.durationType == 'days'){
+                    } else if (message.durationType == 'hours' || message.durationType == 'days'){
                         const expirationTime = message.expirationTime.toDate()
                         if(timeNow > expirationTime) expired = true
                     }
                     return message = {...message, expired:expired}
                 })
-                await setUserMessages(messagesWithMeta)
-                setIsLoading(false)
+                dispatch({type:'FETCH_SUCCESS',payload:messagesWithMeta})
             }
-
         )()
     },[userData])
-
-    console.log({userMessages})
 
     // console.log('User is logged in',isLoggedIn)
     return(
@@ -57,20 +50,18 @@ export default function MyMessages(){
             { isLoggedIn ? 
             <>
                 <h1>Wecomme {userData.email}</h1>
-                {isLoading && <Loading />}
-                
+                {state.isLoading && <Loading />}
                     <>
                         { 
-                            !isLoading && userMessages.length > 0 ? 
+                            !state.isLoading && state.userMessages.length > 0 ? 
                             <>
-                                <h2>My messages</h2>
-                                <Messages messages={userMessages} />
+                                <h3>My messages</h3>
+                                <Messages messages={state.userMessages} />
                             </>
                             : 
                             'No Messages found!'
                         }
                     </>
-                <Link to='/create-message' state={{uid}}>Create message</Link>
             </>
             :
             <>

@@ -5,8 +5,8 @@ export default function Messages({messages}){
         <>
         <ul role="list" className="messages">
             {
-                messages.map((message) =>{
-                    return <Message key={message.uid} message={message} />
+                messages.map((message) => {
+                    return <Message key={message.id} message={message} />
                 })
             }
         </ul>

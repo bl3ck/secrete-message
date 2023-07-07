@@ -21,7 +21,7 @@ export default function Header(){
                             :
                             <>
                                 <li>
-                                    <NavLink to={`/${userData.uid}/messages`}>Messages</NavLink>
+                                    <NavLink to={`/${userData.uid}/messages`} >Messages</NavLink>
                                 </li>
                                 <li><NavLink to='/logout' onClick={logOut}>Logout</NavLink></li>
                             </>
