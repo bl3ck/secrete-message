@@ -44,7 +44,6 @@ export default function MyMessages(){
         )()
     },[userData])
 
-    // console.log('User is logged in',isLoggedIn)
     return(
         <>
             { isLoggedIn ? 

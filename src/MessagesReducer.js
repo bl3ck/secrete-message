@@ -1,5 +1,4 @@
 export const INITIAL_STATE = {
-    userId: undefined,
     userMessages: {},
     isLoading: false,
 

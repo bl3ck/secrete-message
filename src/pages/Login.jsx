@@ -36,7 +36,6 @@ export default function Login(){
             setFormErrors({})
             navigate(`/${uid}/messages`)
             const token = userCredential.user.accessToken
-            console.log(userCredential,userCredential.user.accessToken)
             const userInfo = {uid, email:user.email, displayName:user.displayName}
             localStorage.setItem('accessToken', token )
             localStorage.setItem('userData', JSON.stringify(userInfo))
