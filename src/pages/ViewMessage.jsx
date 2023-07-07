@@ -1,59 +1,60 @@
 import { Timestamp, collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore"
-import { useEffect, useState } from "react"
+import { useEffect, useReducer, useState } from "react"
 import { useParams } from "react-router-dom"
 import { db } from "../firebase"
+import Loading from "../components/Loading"
+import { INITIAL_STATE, ViewMessageReducer } from "../ViewMessageReducer"
 
 
 export default function ViewMessage(){
-    const [message, setMessage] = useState({})
     const {messageID} = useParams()
-    const [hasExpired, setHasExpired] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
+
+    const [state, dispatch] = useReducer(ViewMessageReducer, INITIAL_STATE)
+
     useEffect( () => {
-        const getMessage = async (entryId) => {
-            setIsLoading(true)
+        ( async (entryId) => {
+            dispatch({type:'FETCH_START'})
             const docRef = doc(db, 'messages', entryId);
             const docSnap = await getDoc(docRef);
             if(docSnap.exists()){
                 const data = { ...docSnap.data(), id: docSnap.id };
-                setMessage(data)
-                console.log({data})
+                console.log(state)
+                let expired = false
                 const timeNow = Timestamp.now().toDate()
                 if (data.durationType == 'views'){
                     const newDuration = data.duration - 1;
-                    console.log(newDuration)
                     await updateDoc (docRef, {
                         duration: newDuration
                     })
-                    if(data.duration < 1) setHasExpired(true)
-                } else if (data.durationType == 'hours'){
+                    if(data.duration < 1) expired = true
+                } else if (data.durationType == 'hours' || data.durationType == 'days'){
                     const expirationTime = data.expirationTime.toDate()
-                    timeNow > expirationTime ? setHasExpired(true) : setHasExpired(false)
-                    console.log({ timeNow, expirationTime, expired: timeNow > expirationTime})
-                } else if (data.durationType == 'days'){
-                    const expirationTime = data.expirationTime.toDate()
-                    timeNow > expirationTime ? setHasExpired(true) : setHasExpired(false)
-                    console.log({ timeNow, expirationTime, expired: timeNow > expirationTime})
+                    expired = timeNow > expirationTime ? true : false
                 }
+                dispatch({type:'FETCH_SUCCESS', payload: {...data, expired}})
             } else {
-                setMessage({msg:'Message does not exist'})
+                dispatch({type:'FETCH_ERROR'})
             }
-            setIsLoading(false)
         }
-        getMessage(messageID)
+        )(messageID)
     }, [])
 
     return(
         <>
-            <p>You are viewing the message with ID: <b>{messageID}</b></p>
-            { isLoading &&
-                <p>Loading...</p>
+            { state.isLoading ? 
+               <Loading />
+            :
+            <>
+            {
+                !state.hasExpired && state.hasExpired != undefined && 
+                <>
+                    <p>Message ID:</p>
+                    <h1>{state.message?.id}</h1>
+                </>
             }
-            <h1>{
-                !isLoading ?
-                    !hasExpired ? message.msg : 'Message has expired'
-                : ''
-            }</h1>
+                <p className="p-3 bg-gray-100 my-3">{state.message?.msg}</p> 
+            </>
+            }
         </>
     )
 }
