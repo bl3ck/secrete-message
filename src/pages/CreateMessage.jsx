@@ -33,8 +33,6 @@ export default function CreateMessage () {
                 messageLink: APP_URL + '/message/' + docRef.id
             }))
             console.log("Document written with ID: ", docRef.id);
-            // flash('Here')
-            // console.log(message)
         } catch (e) {
             console.error("Error adding document: ", e);
         }
@@ -48,7 +46,6 @@ export default function CreateMessage () {
         let msg = messageRef.current.value
         let durationType = durationTypeRef.current.find( (entry) => entry.current.checked )
         durationType = durationType == undefined ? undefined : durationType.current.value
-        console.log(durationType)
         let duration = durationRef.current.value
 
         // Checking all fields if they have values atleast
@@ -81,7 +78,6 @@ export default function CreateMessage () {
 
         setMessage(msg_data)
         addMessage(msg_data)
-        console.log(message)
     }
 
     const handleClickCopy = (link) => {
@@ -129,8 +125,9 @@ export default function CreateMessage () {
             {
                 message.messageLink != undefined ? 
                 <>
-                    <p>Your message: {message?.msg}</p>
-                    <p>Your secret message link is: <i>{message.messageLink}</i></p>
+                    <div className="bg-gray-50 p-3 mt-6 space-y-4 gap-2 grid sm:grid-cols-1">
+                        <p>Your secret message link is: <b><i>{message.messageLink}</i></b></p>
+                    </div>
                     <p><b onClick={(e) => handleClickCopy(message.messageLink) } >{isCopied ? 'Copied!' : 'Click to Copy'}</b></p>
                 </>
                 :

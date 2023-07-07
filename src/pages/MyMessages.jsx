@@ -50,17 +50,20 @@ export default function MyMessages(){
             <>
                 <h1>Wecomme {userData.email}</h1>
                 {state.isLoading && <Loading />}
-                    <>
-                        { 
-                            !state.isLoading && state.userMessages.length > 0 ? 
-                            <>
-                                <h3>My messages</h3>
-                                <Messages messages={state.userMessages} />
-                            </>
-                            : 
-                            'No Messages found!'
-                        }
-                    </>
+                    {
+                        !state.isLoading &&
+                        <>
+                            { 
+                                !state.isLoading && state.userMessages.length > 0 ? 
+                                <>
+                                    <h3>My messages</h3>
+                                    <Messages messages={state.userMessages} />
+                                </>
+                                : 
+                                'No Messages found!'
+                            }
+                        </>
+                    }
             </>
             :
             <>

@@ -51,7 +51,10 @@ input[type='number'],
 input[type='email'],
 input[type='password'],
 textarea{
-  @apply block rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6
+  @apply block rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black/50 sm:text-sm sm:leading-6
+}
+input[type='radio']{
+  @apply text-black focus:ring-black focus-within:ring-black/80
 }
 textarea{
   @apply w-full
@@ -76,7 +79,7 @@ label{
   @apply mt-1 text-sm leading-6 text-gray-600
 }
 button{
-  @apply rounded-md !bg-teal-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 !important
+  @apply rounded-md !bg-black/90 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black !important
 }
 .error {
   @apply text-red-600 text-sm
@@ -107,7 +110,7 @@ button{
 
 /* Messages Listing */
 .messages{
-  @apply divide-y grid grid-cols-1 space-y-3 my-4
+  @apply divide-y grid grid-cols-1 space-y-3 my-4 max-h-96 overflow-y-scroll scroll-my-4
 }
 .messages .message{
   @apply relative flex items-center space-x-4 bg-gray-50 p-4 rounded-sm
