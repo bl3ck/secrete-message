@@ -22,7 +22,7 @@ body #root{
   @apply font-sans
 }
 h1{
-  @apply text-2xl font-bold 
+  @apply  text-base sm:text-2xl font-bold 
 }
 
 /* 1. Header */
@@ -30,10 +30,10 @@ header{
   @apply flex justify-center relative
 }
 header ul{
-  @apply flex gap-2 items-center justify-center bg-gray-200 rounded-full w-auto p-1
+  @apply flex gap-1 sm:gap-2 items-center justify-center bg-gray-200 rounded-full w-auto p-1
 }
 header ul li a{
-  @apply  px-6 py-3 rounded-full block align-middle items-center text-sm delay-75 overflow-hidden duration-500 transition-all 
+  @apply px-4 py-2.5 sm:px-6 sm:py-3 rounded-full block align-middle items-center text-xs sm:text-sm delay-75 overflow-hidden duration-500 transition-all 
 }
 header ul li a:hover{
   @apply text-gray-500
