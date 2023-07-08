@@ -18,7 +18,6 @@ export default function ViewMessage(){
             const docSnap = await getDoc(docRef);
             if(docSnap.exists()){
                 const data = { ...docSnap.data(), id: docSnap.id };
-                console.log(state)
                 let expired = false
                 const timeNow = Timestamp.now().toDate()
                 if (data.durationType == 'views'){
@@ -52,7 +51,7 @@ export default function ViewMessage(){
                     <h1>{state.message?.id}</h1>
                 </>
             }
-                <p className="p-3 bg-gray-100 my-3">{state.message?.msg}</p> 
+                <p className={`v-message ${(state.hasExpired != undefined && !state.hasExpired) ? 'active' : 'expired' }`}>{state.message?.msg}</p> 
             </>
             }
         </>

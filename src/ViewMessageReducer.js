@@ -15,7 +15,7 @@ export const ViewMessageReducer = ( state, action ) => {
             return {
                 ...state,
                 isLoading: false,
-                message: !action.payload.expired ? action.payload : {msg:'Message does not exist'},
+                message: !action.payload.expired ? action.payload : {msg:'Message has expired!'},
                 hasExpired: action.payload.expired,
             }
         case 'FETCH_ERROR':

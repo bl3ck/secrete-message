@@ -142,7 +142,15 @@ button{
 .message a{
   @apply text-xs font-medium outline outline-1 px-2 rounded-full
 }
-
+.v-message{
+  @apply p-3 bg-gray-100 my-3 rounded-lg
+}
+.v-message.active{
+  @apply bg-green-50 text-green-700
+}
+.v-message.expired{
+  @apply bg-red-50 text-red-500 text-center
+}
 
 /* Text - Homepage */
 .text{
